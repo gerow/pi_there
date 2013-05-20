@@ -158,6 +158,10 @@ class Adafruit_I2C :
       result = (hibyte << 8) + lobyte
       if (self.debug):
         print "I2C: Device 0x%02X returned 0x%04X from reg 0x%02X" % (self.address, result & 0xFFFF, reg)
+      # convert to signed format
+      if result & 0x8000:
+        result &= 0x7fff
+        result -= 0x8000
       return result
     except IOError, err:
       return self.errMsg()
